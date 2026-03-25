@@ -1,0 +1,168 @@
+---
+import PortfolioItem from './PortfolioItem.astro';
+import HoverPreview from './HoverPreview.astro';
+
+interface Project {
+  title: string;
+  url: string;
+  year: number;
+  roles: string[];
+  team: string[];
+  preview: string;
+}
+
+const projects: Project[] = [
+  // 2026
+  {
+    title: 'AI vs Cancer',
+    url: 'https://curecancer.ai/',
+    year: 2026,
+    roles: ['Product mgmt.'],
+    team: ['Taylor'],
+    preview: '/previews/curecancer.jpg',
+  },
+  {
+    title: 'Human Statement',
+    url: 'https://humanstatement.org/',
+    year: 2026,
+    roles: ['Product mgmt.'],
+    team: ['Taylor'],
+    preview: '/previews/humanstatement.jpg',
+  },
+  // 2025
+  {
+    title: 'Superintelligence Statement',
+    url: 'https://superintelligence-statement.org/',
+    year: 2025,
+    roles: ['Product mgmt.', 'Design'],
+    team: ['Taylor'],
+    preview: '/previews/superintelligence-statement.jpg',
+  },
+  {
+    title: 'Control Inversion',
+    url: 'https://control-inversion.ai/',
+    year: 2025,
+    roles: ['Product mgmt.'],
+    team: ['Taylor'],
+    preview: '/previews/control-inversion.jpg',
+  },
+  {
+    title: 'FLI AI Safety Index',
+    url: 'https://futureoflife.org/ai-safety-index-winter-2025/',
+    year: 2025,
+    roles: ['Product mgmt.', 'Design'],
+    team: ['Taylor'],
+    preview: '/previews/ai-safety-index.jpg',
+  },
+  {
+    title: 'Global Governance of AI',
+    url: 'https://global-governance.ai/',
+    year: 2025,
+    roles: ['Product mgmt.', 'Design'],
+    team: ['Taylor'],
+    preview: '/previews/global-governance.jpg',
+  },
+  {
+    title: 'Korean AI Basic Act',
+    url: 'https://aibasicact.kr/',
+    year: 2025,
+    roles: ['Product mgmt.'],
+    team: ['Taylor'],
+    preview: '/previews/aibasicact.jpg',
+  },
+  {
+    title: 'Replacement.ai',
+    url: 'https://replacement.ai/',
+    year: 2025,
+    roles: ['Product mgmt.', 'Design'],
+    team: ['Taylor'],
+    preview: '/previews/replacement.jpg',
+  },
+  {
+    title: 'Keep the Future Human',
+    url: 'https://keepthefuturehuman.ai/',
+    year: 2025,
+    roles: ['Product mgmt.', 'Design', 'Development'],
+    team: ['Taylor'],
+    preview: '/previews/keepthefuturehuman.jpg',
+  },
+  {
+    title: 'Christian AI Letter',
+    url: 'https://christianailetter.org/',
+    year: 2025,
+    roles: ['Product mgmt.', 'Design', 'Development'],
+    team: ['Taylor'],
+    preview: '/previews/christianailetter.jpg',
+  },
+  // 2024
+  {
+    title: 'AI Safety Priorities',
+    url: 'https://aisafetypriorities.org/',
+    year: 2024,
+    roles: ['Product mgmt.', 'Design'],
+    team: ['Taylor'],
+    preview: '/previews/aisafetypriorities.jpg',
+  },
+  // 2022
+  {
+    title: 'Future of Life Institute',
+    url: 'https://futureoflife.org/',
+    year: 2022,
+    roles: ['Product mgmt.', 'Design', 'Development'],
+    team: ['Taylor'],
+    preview: '/previews/futureoflife.jpg',
+  },
+  {
+    title: 'EU AI Act',
+    url: 'https://artificialintelligenceact.eu/',
+    year: 2022,
+    roles: ['Product mgmt.'],
+    team: ['Taylor'],
+    preview: '/previews/eu-ai-act.jpg',
+  },
+];
+---
+
+<section class="section">
+  <div class="section-header">
+    <span class="section-label">Work</span>
+    <span class="section-desc">Including independent work from our team members</span>
+  </div>
+  <ul class="portfolio-list">
+    {projects.map((project) => (
+      <PortfolioItem
+        title={project.title}
+        url={project.url}
+        year={project.year}
+        roles={project.roles}
+        team={project.team}
+        preview={project.preview}
+      />
+    ))}
+  </ul>
+  <HoverPreview />
+</section>
+
+<style>
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-6);
+    margin-bottom: var(--space-8);
+  }
+
+  .section-header .section-label {
+    margin-bottom: 0;
+    flex-shrink: 0;
+  }
+
+  .section-desc {
+    font-size: var(--font-size-xs);
+    color: var(--color-muted);
+    letter-spacing: var(--tracking-wide);
+  }
+
+  .portfolio-list {
+    list-style: none;
+  }
+</style>

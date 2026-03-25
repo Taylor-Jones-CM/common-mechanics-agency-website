@@ -1,0 +1,63 @@
+name: Refresh portfolio previews
+
+on:
+  # Run whenever portfolio data could have changed
+  push:
+    branches: [main]
+    paths:
+      - 'src/components/Portfolio.astro'
+      - 'scripts/capture-previews.mjs'
+  # Allow manual trigger from GitHub Actions UI
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Force re-capture all previews (even if images already exist)'
+        type: boolean
+        default: false
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # needed to commit images back to the repo
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Chromium system deps
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 \
+            libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 \
+            libxrandr2 libgbm1 libasound2
+
+      - name: Capture previews
+        run: |
+          if [ "${{ inputs.force }}" = "true" ]; then
+            npm run capture-previews -- --force
+          else
+            npm run capture-previews
+          fi
+
+      - name: Commit new/updated previews
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/previews/
+          if git diff --cached --quiet; then
+            echo "No preview changes to commit."
+          else
+            git commit -m "chore: refresh portfolio preview images [skip ci]"
+            git push
+          fi

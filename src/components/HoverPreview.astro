@@ -1,0 +1,195 @@
+<!-- Desktop hover preview -->
+<div id="hover-preview" aria-hidden="true">
+  <img id="hover-preview-img" src="" alt="" width="260" height="163" />
+</div>
+
+<!-- Mobile tap modal -->
+<div id="mobile-modal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div id="mobile-modal-backdrop"></div>
+  <div id="mobile-modal-card">
+    <img id="mobile-modal-img" src="" alt="" />
+    <a id="mobile-modal-link" href="#" target="_blank" rel="noopener noreferrer">
+      Visit website ↗
+    </a>
+  </div>
+</div>
+
+<style>
+  /* ── Desktop hover preview ── */
+  #hover-preview {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0;
+    transition: opacity 100ms cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid var(--color-subtle);
+    background: var(--color-bg);
+    padding: 3px;
+    width: 260px;
+    transform: translate(-9999px, -9999px);
+  }
+
+  #hover-preview.visible {
+    opacity: 1;
+  }
+
+  #hover-preview-img {
+    display: block;
+    width: 100%;
+    height: 163px;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  /* ── Mobile modal ── */
+  #mobile-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+  }
+
+  #mobile-modal.open {
+    display: block;
+  }
+
+  #mobile-modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    animation: fade-in 160ms ease both;
+  }
+
+  #mobile-modal-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    background: var(--color-bg);
+    border: 1px solid var(--color-subtle);
+    animation: fade-scale-in 200ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  #mobile-modal-img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  #mobile-modal-link {
+    display: block;
+    padding: var(--space-4) var(--space-6);
+    font-size: var(--font-size-xs);
+    letter-spacing: var(--tracking-wide);
+    color: var(--color-muted);
+    text-decoration: none;
+    border-top: 1px solid var(--color-accent-line);
+    transition: color 100ms ease;
+  }
+
+  #mobile-modal-link:hover {
+    color: var(--color-fg);
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  @keyframes fade-scale-in {
+    from { opacity: 0; transform: translate(-50%, -50%) scale(0.96); }
+    to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  }
+</style>
+
+<script>
+  // ── Desktop hover preview ──────────────────────────────
+  const preview    = document.getElementById('hover-preview') as HTMLDivElement;
+  const previewImg = document.getElementById('hover-preview-img') as HTMLImageElement;
+
+  let mouseX = 0, mouseY = 0, rafId: number | null = null;
+  const OFFSET_X = 22, OFFSET_Y = -100;
+
+  function positionPreview() {
+    const pw = 260, ph = 163 + 6;
+    const vw = window.innerWidth, vh = window.innerHeight;
+    let x = mouseX + OFFSET_X, y = mouseY + OFFSET_Y;
+    if (x + pw > vw - 16) x = mouseX - pw - OFFSET_X;
+    if (y < 16) y = mouseY + 20;
+    if (y + ph > vh - 16) y = vh - ph - 16;
+    preview.style.transform = `translate(${x}px, ${y}px)`;
+  }
+
+  function onMouseMove(e: MouseEvent) {
+    mouseX = e.clientX; mouseY = e.clientY;
+    if (!rafId) rafId = requestAnimationFrame(() => { positionPreview(); rafId = null; });
+  }
+
+  // Only attach hover listeners on non-touch devices
+  const isTouch = window.matchMedia('(pointer: coarse)').matches;
+
+  if (!isTouch) {
+    document.addEventListener('mouseover', (e) => {
+      const link = (e.target as Element).closest('[data-preview]') as HTMLAnchorElement | null;
+      if (!link) return;
+      const src = link.dataset.preview ?? '';
+      if (previewImg.getAttribute('src') !== src) previewImg.src = src;
+      positionPreview();
+      preview.classList.add('visible');
+      document.addEventListener('mousemove', onMouseMove);
+    });
+
+    document.addEventListener('mouseout', (e) => {
+      const link = (e.target as Element).closest('[data-preview]') as HTMLAnchorElement | null;
+      if (!link) return;
+      if (!link.contains(e.relatedTarget as Node | null)) {
+        preview.classList.remove('visible');
+        document.removeEventListener('mousemove', onMouseMove);
+      }
+    });
+  }
+
+  // ── Mobile tap modal ───────────────────────────────────
+  const modal    = document.getElementById('mobile-modal') as HTMLDivElement;
+  const backdrop = document.getElementById('mobile-modal-backdrop') as HTMLDivElement;
+  const modalImg = document.getElementById('mobile-modal-img') as HTMLImageElement;
+  const modalLink = document.getElementById('mobile-modal-link') as HTMLAnchorElement;
+
+  function openModal(src: string, href: string, title: string) {
+    modalImg.src = src;
+    modalImg.alt = title;
+    modalLink.href = href;
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  if (isTouch) {
+    document.addEventListener('click', (e) => {
+      const link = (e.target as Element).closest('[data-preview]') as HTMLAnchorElement | null;
+      if (!link) return;
+      e.preventDefault();
+      const src   = link.dataset.preview ?? '';
+      const href  = link.href;
+      const title = link.querySelector('.portfolio-title')?.textContent ?? '';
+      openModal(src, href, title);
+    });
+
+    backdrop.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+  }
+</script>

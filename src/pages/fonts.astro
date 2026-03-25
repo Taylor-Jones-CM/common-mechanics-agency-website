@@ -1,0 +1,112 @@
+---
+const fonts = [
+  { name: 'Space Grotesk',      family: 'Space+Grotesk:wght@300;400',     note: 'Geometric, techy, humanist' },
+  { name: 'Syne',               family: 'Syne:wght@400;700',              note: 'Display-forward, futuristic' },
+  { name: 'Epilogue',           family: 'Epilogue:wght@300;400',          note: 'Clean, technical, versatile' },
+  { name: 'Instrument Sans',    family: 'Instrument+Sans:wght@400',       note: 'Refined, humanist, elegant' },
+  { name: 'Plus Jakarta Sans',  family: 'Plus+Jakarta+Sans:wght@300;400', note: 'Geometric humanist, modern' },
+  { name: 'Fraunces',           family: 'Fraunces:opsz,wght@144,300',     note: 'Transitional serif, optical display' },
+  { name: 'Exo 2',              family: 'Exo+2:wght@300;400',             note: 'Sci-fi geometric, condensed feel' },
+  { name: 'Oxanium',            family: 'Oxanium:wght@300;400',           note: 'Technical, angular, futuristic' },
+  { name: 'Urbanist',           family: 'Urbanist:wght@300;400',          note: 'Minimal geometric, refined' },
+  { name: 'DM Sans',            family: 'DM+Sans:opsz,wght@40,300',       note: 'Humanist, legible, warm' },
+];
+
+const googleUrl = `https://fonts.googleapis.com/css2?${
+  fonts.map(f => `family=${f.family}`).join('&')
+}&display=swap`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Font preview — Common Mechanics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href={googleUrl} rel="stylesheet" />
+    <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        background: #0d0d0d;
+        color: #e2e2e2;
+        padding: 3rem clamp(1.5rem, 5vw, 3rem);
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 0.8125rem;
+      }
+
+      h1 {
+        font-size: 0.6875rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #505050;
+        margin-bottom: 3rem;
+        font-family: 'IBM Plex Mono', monospace;
+        font-weight: 400;
+      }
+
+      .font-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .font-item {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        padding: 1.5rem 0;
+        border-bottom: 1px solid rgba(226,226,226,0.07);
+      }
+
+      .font-item:first-child {
+        border-top: 1px solid rgba(226,226,226,0.07);
+      }
+
+      .font-meta {
+        flex-shrink: 0;
+        width: 160px;
+      }
+
+      .font-name {
+        font-size: 0.6875rem;
+        letter-spacing: 0.06em;
+        color: #505050;
+        display: block;
+        margin-bottom: 0.25rem;
+      }
+
+      .font-note {
+        font-size: 0.625rem;
+        color: #383838;
+        letter-spacing: 0.04em;
+      }
+
+      .font-sample {
+        font-size: clamp(1.75rem, 4vw, 2.75rem);
+        font-weight: 300;
+        line-height: 1;
+        letter-spacing: -0.01em;
+        flex: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Font preview — agency wordmark</h1>
+    <ul class="font-list">
+      {fonts.map(f => (
+        <li class="font-item">
+          <div class="font-meta">
+            <span class="font-name">{f.name}</span>
+            <span class="font-note">{f.note}</span>
+          </div>
+          <span class="font-sample" style={`font-family: '${f.name}', sans-serif`}>
+            Common Mechanics
+          </span>
+        </li>
+      ))}
+    </ul>
+  </body>
+</html>

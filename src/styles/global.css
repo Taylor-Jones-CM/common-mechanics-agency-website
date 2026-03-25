@@ -1,0 +1,111 @@
+/* ─── Tokens ─────────────────────────────────────── */
+:root {
+  /* Typography */
+  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+  --font-size-xs:   0.6875rem;  /* 11px */
+  --font-size-sm:   0.8125rem;  /* 13px */
+  --font-size-base: 0.9375rem;  /* 15px */
+  --font-size-lg:   1.125rem;   /* 18px */
+  --font-size-xl:   1.5rem;     /* 24px */
+  --font-size-2xl:  2rem;       /* 32px */
+
+  /* Color */
+  --color-bg:          #0d0d0d;
+  --color-fg:          #e2e2e2;
+  --color-muted:       #505050;
+  --color-subtle:      #222222;
+  --color-accent-line: rgba(226, 226, 226, 0.07);
+
+  /* Spacing (4px base) */
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-24: 6rem;
+
+  /* Layout */
+  --max-width: 740px;
+  --page-padding: clamp(var(--space-6), 5vw, var(--space-12));
+
+  /* Letter-spacing */
+  --tracking-tight:  -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide:   0.06em;
+  --tracking-wider:  0.14em;
+
+  /* Transitions */
+  --duration-fast: 100ms;
+  --duration-base: 200ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ─── Reset ──────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-mono);
+  font-size: var(--font-size-base);
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+  line-height: 1.65;
+  min-height: 100dvh;
+  padding: 0 var(--page-padding);
+  -webkit-font-smoothing: antialiased;
+  /* Faint dot-grid texture */
+  background-image: radial-gradient(circle, rgba(226, 226, 226, 0.09) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* ─── Links ──────────────────────────────────────── */
+a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--color-muted);
+  text-underline-offset: 3px;
+  transition: text-decoration-color var(--duration-fast) var(--ease-out),
+              color var(--duration-fast) var(--ease-out);
+}
+a:hover {
+  text-decoration-color: var(--color-fg);
+}
+
+/* ─── Section layout ─────────────────────────────── */
+.section {
+  position: relative;
+  z-index: 1;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--space-16) 0;
+}
+
+.section + .section {
+  border-top: 1px solid var(--color-accent-line);
+}
+
+/* ─── Section label ──────────────────────────────── */
+.section-label {
+  display: block;
+  font-size: var(--font-size-xs);
+  letter-spacing: var(--tracking-wider);
+  color: var(--color-muted);
+  text-transform: uppercase;
+  margin-bottom: var(--space-8);
+}
+
+/* ─── Utilities ──────────────────────────────────── */
+.text-muted { color: var(--color-muted); }
+.text-xs    { font-size: var(--font-size-xs); }
+.text-sm    { font-size: var(--font-size-sm); }

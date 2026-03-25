@@ -1,0 +1,17 @@
+{
+  "name": "common-mechanics-site",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "capture-previews": "node scripts/capture-previews.mjs"
+  },
+  "dependencies": {
+    "astro": "^6.0.8"
+  },
+  "devDependencies": {
+    "puppeteer": "^24.40.0"
+  }
+}

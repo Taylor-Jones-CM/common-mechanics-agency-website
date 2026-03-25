@@ -1,0 +1,54 @@
+<section class="section">
+  <span class="section-label">Team</span>
+  <ul class="team-list">
+    <li class="team-item">
+      <span class="team-name">Taylor Jones</span>
+      <span class="team-meta">
+        <span class="text-muted text-xs">London, UK</span>
+        <a
+          href="mailto:taylor@commonmechanics.io"
+          class="text-xs"
+          aria-label="Email Taylor Jones"
+        >taylor@commonmechanics.io</a>
+      </span>
+    </li>
+    <li class="team-item">
+      <span class="team-name">Alexander Haase</span>
+      <span class="team-meta">
+        <span class="text-muted text-xs">Berlin, DE</span>
+        <a
+          href="mailto:alexander@commonmechanics.io"
+          class="text-xs"
+          aria-label="Email Alexander Haase"
+        >alexander@commonmechanics.io</a>
+      </span>
+    </li>
+  </ul>
+</section>
+
+<style>
+  .team-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .team-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+
+  .team-name {
+    font-size: var(--font-size-base);
+  }
+
+  .team-meta {
+    display: flex;
+    gap: var(--space-6);
+    align-items: baseline;
+  }
+</style>
