@@ -5,13 +5,17 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview",
-    "capture-previews": "node scripts/capture-previews.mjs"
+    "preview": "npm run build && wrangler dev",
+    "capture-previews": "node scripts/capture-previews.mjs",
+    "generate-types": "wrangler types",
+    "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
+    "@astrojs/cloudflare": "^13.1.7",
     "astro": "^6.0.8"
   },
   "devDependencies": {
-    "puppeteer": "^24.40.0"
+    "puppeteer": "^24.40.0",
+    "wrangler": "^4.80.0"
   }
 }
